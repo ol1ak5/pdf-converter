@@ -1,0 +1,145 @@
+/* What a CV looks like. The only description of it anywhere.
+ *
+ * Chrome reads this file through cv/make_pdf.sh when building a PDF from the
+ * command line, and the site imports it to render and print the same document.
+ * While the site had a stylesheet of its own, one text produced two different
+ * CVs - a serif A4 page on disk and a sans-serif web page online.
+ *
+ * Every rule is scoped under .cv-document so the page around it keeps its own
+ * look; make_pdf.sh puts that class on <body> so the same rules apply there.
+ *
+ * A4, Times New Roman, justified. Job dates sit right of the location line;
+ * list dates stay inline after a |
+ *
+ * Headings carry an explicit font-weight even though bold is what a browser
+ * would do unprompted. Tailwind's base layer resets headings to inherit their
+ * weight, so on the site - and only there - every heading came out thin while
+ * the PDF stayed bold. Saying it outright makes the two agree.
+ */
+/* Chrome honours these; Safari adds its own on top and offers no way to turn
+   them off, which is why printing a CV from a browser cannot be made reliable
+   and the PDF is built on the server instead. */
+/* Tinos: metrically identical to Times New Roman, freely licensed (Apache 2.0).
+ *
+ * The server that builds the PDF has no Times New Roman and never will - it is
+ * Monotype's, not something to ship. Identical metrics mean identical line
+ * breaks, so the page count cannot change depending on where the file was
+ * made. On a Mac the real face still wins, because it is named first. */
+@font-face {
+  font-family: "Tinos";
+  src: url("fonts/tinos-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+@font-face {
+  font-family: "Tinos";
+  src: url("fonts/tinos-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: block;
+}
+@font-face {
+  font-family: "Tinos";
+  src: url("fonts/tinos-400-italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: block;
+}
+@font-face {
+  font-family: "Tinos";
+  src: url("fonts/tinos-700-italic.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+  font-display: block;
+}
+
+@page { size: A4; margin: 13mm 16mm; }
+
+.cv-document {
+  font-family: "Times New Roman", "Tinos", Georgia, serif;
+  font-size: 10pt;
+  line-height: 1.3;
+  color: #1c1c1c;
+  margin: 0;
+}
+
+
+/* ---------- header: name / headline / contact, tight spacing ---------- */
+.cv-document h1 {
+  text-align: center;
+  font-size: 19pt;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+.cv-document h1 + p,
+.cv-document h1 + p + p {
+  text-align: center;
+  margin: 1pt 0;
+}
+
+.cv-document h1 + p { font-size: 12pt; }          /* headline – larger */
+.cv-document h1 + p + p { font-size: 10.5pt; }    /* contact line */
+
+/* ---------- section headers ---------- */
+.cv-document h2 {
+  font-size: 11pt;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  border-bottom: 1px solid #444;
+  padding-bottom: 1pt;
+  margin: 8pt 0 4pt 0;
+  break-after: avoid;
+}
+
+/* job title line */
+.cv-document h3 {
+  font-size: 10.5pt;
+  font-weight: bold;
+  margin: 6pt 0 1pt 0;
+  break-after: avoid;
+}
+
+/* location (left) + dates (right) on the line under each job title */
+.cv-document h3 + p {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 2pt 0;
+}
+
+.cv-document p { margin: 2pt 0; text-align: justify; }
+
+.cv-document ul { margin: 2pt 0 4pt 0; padding-left: 14pt; list-style: disc; }
+.cv-document li { text-align: justify; margin: 1.5pt 0; break-inside: avoid; }
+
+/* project headings: date in em flies right too */
+.cv-document h3 em { float: right; font-weight: normal; font-size: 9.5pt; }
+
+/* languages: single line stretched edge to edge */
+.cv-document #languages + p {
+  text-align: justify;
+  text-align-last: justify;
+}
+
+.cv-document hr { display: none; }
+
+.cv-document a { color: #0b5394; text-decoration: none; }
+
+/* On screen the column is the width it has on paper - A4 less its margins -
+   so a justified line breaks in the same place in both, and what you see is
+   what prints. */
+@media screen {
+  .cv-document {
+    width: 178mm;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+}
+
+/* The app's canvas tint would otherwise be inked across the whole sheet. */
+@media print {
+  body { background: #fff; }
+}

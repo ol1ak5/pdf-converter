@@ -1,24 +1,15 @@
-# 📄 PDF Converter
+# PDF Converter
 
 A one-click macOS tool that turns a Markdown CV into a clean, print-ready A4 PDF.
 
-## 🎯 The Problem
+## How It Works
 
-A CV is easiest to write and keep up to date as plain text, but it has to be sent as a polished PDF. Word processors make every edit a fight with the layout, and printing to PDF from a browser adds headers, footers and margins you can't turn off.
+1. You write your CV in **Markdown**.
+2. **Pandoc** converts the Markdown into an HTML page linked to [`style/cv.css`](style/cv.css).
+3. **The stylesheet** sets the look. To change it, edit [style/cv.css](style/cv.css).
+4. **Headless Google Chrome** prints the page to PDF without headers or footers and reveals the result in Finder.
 
-## 💡 The Solution
-
-Write the CV in Markdown, right-click the file in Finder and choose **md2pdf**. A few seconds later the PDF sits next to the original, with the same layout every time.
-
-## 🧠 How It Works
-
-1. **Pandoc** converts the Markdown into an HTML page linked to [`style/cv.css`](style/cv.css).
-2. **The stylesheet** sets the look: A4, Times New Roman, justified text, job dates aligned right. It falls back to the bundled Tinos font, which has the same metrics as Times New Roman, so line breaks and page count never change.
-3. **Headless Google Chrome** prints the page to PDF without headers or footers and reveals the result in Finder.
-
-The Markdown is expected to follow a simple shape: `# Name`, a headline paragraph, a contact paragraph, `## Section` headings, and `### Job title` followed by a `Location ... Dates` line.
-
-## 🚀 Quick Start
+## Quick Start
 
 Requirements: macOS, [Pandoc](https://pandoc.org) (`brew install pandoc`) and Google Chrome at `/Applications/Google Chrome.app`.
 
@@ -36,17 +27,7 @@ From the terminal:
 ./md2pdf.sh *.md       # several files at once
 ```
 
-## 🧩 Built With
-
-| Stack | Used for |
-|---|---|
-| **Pandoc** | Converts Markdown into HTML |
-| **CSS** | Defines the A4 CV layout |
-| **Google Chrome (headless)** | Prints the HTML to PDF |
-| **Automator** | Provides the Finder Quick Action |
-| **Bash** | Ties the steps together |
-
-## 📄 License
+## License
 
 Copyright © 2026 Olga Aksenova.
 
